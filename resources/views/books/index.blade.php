@@ -36,7 +36,7 @@
                         <a class="nav-link {{Request::get('status') == 'draft' ? 'active' : '' }}" href="{{route('books.index', ['status' => 'draft'])}}">Draft</a>
                     </li>
                     <li class="nav-item">
-                        <!-- <a class="nav-link {{Request::path() == 'books/trash' ? 'active' : ''}}" href="route('books.trash')}}">Trash</a> -->
+                        <a class="nav-link {{Request::path() == 'books/trash' ? 'active' : ''}}" href="{{route('books.trash')}}">Trash</a>
                     </li>
                 </ul>
             </div>
