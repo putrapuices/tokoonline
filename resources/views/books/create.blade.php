@@ -17,7 +17,12 @@
         <form action="{{route('books.store')}}" method="POST" enctype="multipart/form-data" class="shadow-sm p-3 bg-white">
 
             @csrf
+            <label for="categories">Categories</label><br>
 
+            <select name="categories[]" multiple id="categories" class="form-control">
+            </select>
+
+            <br><br/>
             <label for="title">Title</label> <br>
             <input type="text" class="form-control" name="title" placeholder="Book title">
             <br>
