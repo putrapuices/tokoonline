@@ -167,4 +167,16 @@ class BookController extends Controller
 
         return view('books.trash', ['books' => $books]);
     }
+
+    public function restore($id)
+    {
+        $book = \App\Models\Book::withTrashed()->findOrFail($id);
+
+        if ($book->trashed()) {
+            $book->restore();
+            return redirect()->route('books.trash')->with('status', 'Book successfully restored');
+        } else {
+            return redirect()->route('books.trash')->with('status', 'Book is not in trash');
+        }
+    }
 }
