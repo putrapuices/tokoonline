@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasOne("App\Models\Handphone");
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

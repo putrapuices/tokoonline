@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -13,8 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = \App\Models\category::pagination(10);
-        return view('categoris.index', ['categories' => $categories]);
+        $categories = \App\Models\Category::paginate(10);
+        return view('categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -46,7 +47,10 @@ class CategoryController extends Controller
                 ->store('category_images', 'public');
 
             $new_category->image = $image_path;
-            $new_category->created_by = \Auth::user()->id;
+            //Kode di atas mengambil nilai id dari user yang sedang login dan berikan ke field created_by
+            $new_category->create_by = \Auth::user()->id;
+            // $new_category->create_by = Auth::id();
+
             $new_category->slug = \Str::slug($name, '-');
             $new_category->save();
             return redirect()->route('categories.create')->with('status', 'Category successfully created');
@@ -72,7 +76,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category_to_edit = \App\Models\Category::findOrFail($id);
+
+        return view('categories.edit', ['category' => $category_to_edit]);
     }
 
     /**
@@ -84,7 +90,31 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $name = $request->get('name');
+        $slug = $request->get('slug');
+
+        $category = \App\Models\Category::findOrFail($id);
+
+        $category->name = $name;
+        $category->slug = $slug;
+
+        if ($request->file('image')) {
+            if ($category->image && file_exists(storage_path('app/public/' . $category->image))) {
+                \Storage::delete('public/' . $category->name);
+            }
+
+            $new_image = $request->file('image')->store('category_images', 'public');
+
+            $category->image = $new_image;
+        }
+
+        $category->updated_by = \Auth::user()->id;
+
+        $category->slug = \Str::slug($name);
+
+        $category->save();
+
+        return redirect()->route('categories.edit', [$id])->with('status', 'Category successfully updated');
     }
 
     /**
