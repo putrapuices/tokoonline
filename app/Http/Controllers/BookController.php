@@ -16,6 +16,7 @@ class BookController extends Controller
         // $books = \App\Models\Book::with('categories')->paginate(10);
 
         $status = $request->get('status');
+        // dd($request);
         $keyword = $request->get('keyword') ? $request->get('keyword') : '';
 
         if ($status) {

@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,3 +58,6 @@ Route::post('/books/{book}/restore', [BookController::class, 'restore'])->name('
 Route::delete('/books/{id}/delete-permanent', [BookController::class, 'deletePermanent'])->name('books.delete-permanent');
 Route::resource('books', BookController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::resource('orders', OrderController::class);

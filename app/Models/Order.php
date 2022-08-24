@@ -9,8 +9,26 @@ class Order extends Model
 {
     use HasFactory;
 
+    // public function books()
+    // {
+    //     return $this->belongsToMany("App\Models\Book");
+    // }
     public function books()
     {
-        return $this->belongsToMany("App\Models\Book");
+        return $this->belongsToMany('App\Models\Book')->withPivot('quantity');;
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function getTotalQuantityAttribute(){
+        $total_quantity = 0;
+    
+        foreach($this->books as $book){
+            $total_quantity += $book->pivot->quantity;
+        }
+    
+        return $total_quantity;
     }
 }
