@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Categori extends Model
 {
+    protected $table = 'categories';
+
     use HasFactory;
     use SoftDeletes;
 }
